@@ -91,11 +91,20 @@ int main(void) {
 	} while (newnode->frequency != input_length);
 		
 	// 3. Print out results by traversing from each character nodes to top node
-	for (cur_char = huffnode_character_list; *cur_char; cur_char++) {
-		char record[INPUT_MAX_LENGTH] = {0};
-		char * record_cur = record;
-		NODE * parent = *cur_char;
+	char encoded[128][INPUT_MAX_LENGTH] = {0}; // Use ASCII code as index
+	char record[INPUT_MAX_LENGTH];
+	char record_rev[INPUT_MAX_LENGTH+1];
+	char * record_cur;
+	char * record_rev_cur;
 
+	for (cur_char = huffnode_character_list; *cur_char; cur_char++, i++) {
+		NODE * parent = *cur_char;
+		memset(record, 0, INPUT_MAX_LENGTH);
+		memset(record_rev, 0, INPUT_MAX_LENGTH);
+		record_cur = record;
+		record_rev_cur = record_rev;
+
+		// traverse from character node to top node
 		while (parent) {
 			if (parent->parent_right) {
 				*record_cur = '1';
@@ -106,14 +115,47 @@ int main(void) {
 			} else break;
 			record_cur++;
 		}
+		record_cur--;
 
+		// reverse the trail record
 		printf("%c: ", (*cur_char)->character);
 		do {
-			printf("%c", *record_cur);
-		} while (*(--record_cur));
+			*(record_rev_cur++) = *(record_cur--);
+		} while (*record_cur);
+
+		// remove front zeros and print out codes of each characters
+		bool first_zero = true;
+		char * c = record_rev;
+		for (; *c; c++) {
+			if (*c == '0') {
+				if (first_zero) continue;
+			} else if (first_zero) {
+				first_zero = false;
+				record_rev_cur = c; // save address where front zero ends
+			}
+			printf("%c", *c);
+		}
+		if (first_zero) {
+			*(record_rev_cur = c-1) = '0';
+			printf("%c", *record_rev_cur);
+		}
 		printf("\n");
+
+		// save result to table
+		strcpy(encoded[(*cur_char)->character], record_rev_cur);
 	}
 
+	// 4. Encode string with calculated result, get encoded string size and compare with original
+	int original_bits = input_length*8;
+	int encoded_bits = 0;
 
-	
+	printf("encoded string: ");
+	for (i=0; i<input_length; i++) {
+		encoded_bits += strlen(encoded[input_string[i]]);
+		printf("%s ", encoded[input_string[i]]);
+	}
+
+	printf("\nencoded string size: %d bits", encoded_bits);
+	printf("\noriginal string size: %d bits", original_bits);
+
 }
