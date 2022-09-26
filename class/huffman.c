@@ -96,6 +96,7 @@ int main(void) {
 	char record_rev[INPUT_MAX_LENGTH+1];
 	char * record_cur;
 	char * record_rev_cur;
+	int trail_count;
 
 	for (cur_char = huffnode_character_list; *cur_char; cur_char++, i++) {
 		NODE * parent = *cur_char;
@@ -103,6 +104,7 @@ int main(void) {
 		memset(record_rev, 0, INPUT_MAX_LENGTH);
 		record_cur = record;
 		record_rev_cur = record_rev;
+		trail_count = 0;
 
 		// traverse from character node to top node
 		while (parent) {
@@ -113,15 +115,17 @@ int main(void) {
 				*record_cur = '0';
 				parent = parent->parent_left;
 			} else break;
+
 			record_cur++;
+			trail_count++;
 		}
 		record_cur--;
 
 		// reverse the trail record
 		printf("%c: ", (*cur_char)->character);
-		do {
+		while (trail_count-- > 0) {
 			*(record_rev_cur++) = *(record_cur--);
-		} while (*record_cur);
+		}
 
 		// remove front zeros and print out codes of each characters
 		bool first_zero = true;
