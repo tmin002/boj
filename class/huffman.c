@@ -146,10 +146,9 @@ int main(void) {
 	printf("encoded string: ");
 	for (i=0; i<input_length; i++) {
 		encoded_bits += strlen(encoded[input_string[i]]);
-	printf("%s ", encoded[input_string[i]]);
+		printf("%s ", encoded[input_string[i]]);
 	}
 
 	printf("\nencoded string size: %d bits", encoded_bits);
 	printf("\noriginal string size: %d bits", original_bits);
-
 }
