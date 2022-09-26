@@ -27,9 +27,10 @@ NODE * make_node(char character, int frequency) {
 
 int main(void) {
 
-	int     i,j,k;                                 // for loop counters
+	int     i,j;                                 // for loop counters
 	char    input_string[INPUT_MAX_LENGTH] = {0};  // input string
 	int     input_length;                          // input string length 
+	int     alphabet_count = 0;                    // count of each different chars in input
 	NODE *  huffnode_list[129] = {0};              // list of nodes
 	NODE *  huffnode_character_list[128] = {0};    // list of character nodes
 	NODE ** cur;                                   // node list traversal cursor
@@ -54,6 +55,7 @@ int main(void) {
 		if (!found_same_character) {
 			*cur = make_node(input_string[i], 1);			
 			*(cur_char++) = *cur;
+			alphabet_count++;
 		}
 	}
 
@@ -64,6 +66,10 @@ int main(void) {
 	NODE * newnode;
 	
 	do {
+		// break if node count < 2
+		if (alphabet_count < 2)
+			break;
+
 		// find smallest two nodes
 		small1 = &max_freq_dummy_node;
 		small2 = small1;
@@ -122,31 +128,15 @@ int main(void) {
 		record_cur--;
 
 		// reverse the trail record
-		printf("%c: ", (*cur_char)->character);
 		while (trail_count-- > 0) {
 			*(record_rev_cur++) = *(record_cur--);
 		}
 
-		// remove front zeros and print out codes of each characters
-		bool first_zero = true;
-		char * c = record_rev;
-		for (; *c; c++) {
-			if (*c == '0') {
-				if (first_zero) continue;
-			} else if (first_zero) {
-				first_zero = false;
-				record_rev_cur = c; // save address where front zero ends
-			}
-			printf("%c", *c);
-		}
-		if (first_zero) {
-			*(record_rev_cur = c-1) = '0';
-			printf("%c", *record_rev_cur);
-		}
-		printf("\n");
+		// print out codes of each characters
+		printf("%c: %s\n", (*cur_char)->character, record_rev);
 
 		// save result to table
-		strcpy(encoded[(*cur_char)->character], record_rev_cur);
+		strcpy(encoded[(*cur_char)->character], record_rev);
 	}
 
 	// 4. Encode string with calculated result, get encoded string size and compare with original
@@ -156,7 +146,7 @@ int main(void) {
 	printf("encoded string: ");
 	for (i=0; i<input_length; i++) {
 		encoded_bits += strlen(encoded[input_string[i]]);
-		printf("%s ", encoded[input_string[i]]);
+	printf("%s ", encoded[input_string[i]]);
 	}
 
 	printf("\nencoded string size: %d bits", encoded_bits);
