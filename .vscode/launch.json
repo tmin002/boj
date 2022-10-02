@@ -1,0 +1,12 @@
+{
+    "configurations": [
+    {
+        "name": "lldb debug",
+        "type": "lldb",
+        "request": "launch",
+        "program": "${workspaceFolder}/output.bin",
+        "cwd": "${workspaceFolder}/pwd",
+        "preLaunchTask": "cbuild"
+    }
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "tasks": [
+        {
+            "label": "cbuild",
+            "type": "shell",
+            "command": "./sc -d ${file}",
+        }
+    ]
+}
