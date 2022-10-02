@@ -47,16 +47,22 @@ FINAL dothing(int row, int col, int * record, int sum) {
 }
 
 int main(void) {
-    scanf("%d %d", &m, &n);
-    for (int i=0; i<m; i++)
+    FILE * f = fopen("input.txt", "r");
+    if (!f) {
+        printf("file not found");
+        return 1;
+    }
+    while (fscanf(f, "%d %d", &m, &n) != EOF) {
+        for (int i=0; i<m; i++)
         for (int j=0; j<n; j++)
-            scanf("%d", path[i]+j);
+            fscanf(f, "%d", path[i]+j);
 
-    int init[1] = {};
-    FINAL s = dothing(0, 0, init, 0);
+        int init[1] = {};
+        FINAL s = dothing(0, 0, init, 0);
 
-    printf("result: ");
-    for (int i=0; i<n; i++) {
-        printf("%d", s.record[i]);
+        for (int i=0; i<n; i++) {
+            printf("%d ", s.record[i]);
+        }
+        printf("\n%d\n", s.sum);
     }
 }
