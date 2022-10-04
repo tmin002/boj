@@ -1,9 +1,10 @@
 {
+    "version": "2.0.0",
     "tasks": [
         {
-            "label": "cbuild",
+            "label": "build c",
             "type": "shell",
-            "command": "./sc -d ${file}",
+            "command": "./sc -d \"${file}\""
         }
     ]
 }
