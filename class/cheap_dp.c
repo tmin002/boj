@@ -66,10 +66,14 @@ int main(void) {
             }
 
         // 3. print out result
-        FINAL result = dp[0][0];
-        for (i=0; i<n; i++) {
-            printf("%d ", result.record[i]);
+        FINAL * result = &(dp[0][0]);
+        for (i=1; i<m; i++) {
+            if (dp[i][0].sum < result->sum)
+                result = &(dp[i][0]);
         }
-        printf("\n%d\n", result.sum);
+        for (i=0; i<n; i++) {
+            printf("%d ", result->record[i]);
+        }
+        printf("\n%d\n", result->sum);
     }
 }

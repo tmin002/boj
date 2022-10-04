@@ -27,7 +27,7 @@ NODE * make_node(char character, int frequency) {
 
 int main(void) {
 
-	int     i,j;                                 // for loop counters
+	int     i,j;                                   // for loop counters
 	char    input_string[INPUT_MAX_LENGTH] = {0};  // input string
 	int     input_length;                          // input string length 
 	int     alphabet_count = 0;                    // count of each different chars in input

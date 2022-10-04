@@ -5,6 +5,7 @@ import glob, sys, os, pathlib, shutil
 debug_mode, run_after, skip_ex = False, False, False
 src_path, is_dir = None, False
 
+
 ## Functions
 def usage(exit_code):
     if exit_code == 1:
@@ -93,7 +94,7 @@ for idx in range(len(args)):
     if arg[0] == '-':
         opt_args.append(arg)
     else:
-        file_args.append(arg)
+        file_args.append(arg.replace('\\', '\\\\'))
 
 for arg in opt_args:
     opt = arg.lower()
