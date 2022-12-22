@@ -1,38 +1,35 @@
-original = (234,345,456,456,234,567,468,7435,23,345,47,34,45,3)
+#!/usr/bin/env python3
 
-def merge(list1, list2):
+def merge(li1, li2):
     i1, i2 = 0, 0
     rl = []
-
-    while i1 < len(list1) and i2 < len(list2):
-        if list1[i1] < list2[i2]:
-            rl.append(list1[i1])
+    while i1 < len(li1) and i2 < len(li2):
+        if li1[i1] < li2[i2]:
+            rl.append(li1[i1])
             i1 += 1
         else:
-            rl.append(list2[i2])
+            rl.append(li2[i2])
             i2 += 1
-
-    if i1 == len(list1):
-        rl += list2[i2:]
-    if i2 == len(list2):
-        rl += list1[i1:]
-
+    if i1 == len(li1):
+        rl += li2[i2:]
+    if i2 == len(li2):
+        rl += li1[i1:]
     return rl
 
-def merge_sort(ll):
-    len_list = len(ll)
-    if len_list > 2:
-        left = merge_sort(ll[:int(len_list/2)])
-        right = merge_sort(ll[int(len_list/2):])
+def merge_sort(li):
+    len_li = len(li)
+    if len_li > 2:
+        left = merge_sort(li[:int(len_li/2)])
+        right = merge_sort(li[int(len_li/2):])
         return merge(left, right)
-    
-    elif len_list == 2:
-        if ll[0] < ll[1]:
-            return ll
+    elif len_li == 2:
+        if li[0] < li[1]:
+            return li
         else:
-            return (ll[1], ll[0])
-
+            return [li[1], li[0]]
     else:
-        return ll
+        return li
 
-print(merge_sort(original))
+import random
+ll = [random.randint(1, 10000000) for _ in range(10000000)]
+merge_sort(ll)
