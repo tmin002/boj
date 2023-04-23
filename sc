@@ -70,9 +70,9 @@ def readdir(path):
 def buildobj(path):
     basename = os.path.basename(path)
     debugstr = '-g' if debug_mode else ''
-    exec('gcc %s -c -o \"./obj/%s.o\" \"%s\"' % (debugstr, basename, path))
+    exec('gcc %s -c -o \"./obj/%s.o\" \"%s\" -lm' % (debugstr, basename, path))
 def linkobj(output):
-    exec('gcc -o \"%s\" ./obj/*' % output)
+    exec('gcc -o \"%s\" ./obj/* -lm' % output)
 
 def addfiletolist(path, lst):
     if endswithc(path) or skip_ex:

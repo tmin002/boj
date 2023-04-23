@@ -1,28 +1,45 @@
-"""
-12345 -> 12534
-[34]
-[125]
+#!/usr/bin/env python3
 
-12345678 -> 43687521
-[12]
-[]
-
-"""
+def done(result):
+	print(result, end='')
+	exit()
 
 n = int(input())
-l = [i for i in range(1, n+1)]
-a, b, result = [], [], []
-prt = ''
-for i in range(n): result.append(int(input()))
+goal = []
+maxloc = n-1
+result_str = ''
 
-widx = 0
-for i in l:
-    a.append(i)
-    prt += '+\n'
-    while len(a)!=0 and a[-1] == result[widx]:
-        b.append(a.pop())
-        widx += 1
-        prt += '-\n'
+for _ in range(n):
+	goal.append(int(input()))
+for _ in range(goal[0]):
+	result_str += '+\n'
 
-if len(a) != 0: print('NO')
-else: print(prt)
+current_max = goal[0]
+for idx in range(n):
+	if goal[idx] == n:
+		maxloc = idx
+		break
+
+	d = goal[idx] - goal[idx+1]
+	if d > 1:
+		done('NO')
+	elif d == 1:
+		result_str += '-\n'
+	elif d < 0:
+		result_str += '-\n'
+		for _ in range(goal[idx+1] - current_max):
+			result_str += '+\n'
+		current_max = goal[idx+1]
+
+result_str += '-\n'
+
+if maxloc >= n-1:
+	done(result_str)
+
+remains = goal[maxloc:]
+for idx in range(len(remains)-1):
+	if remains[idx] < remains[idx+1]:
+		done('NO')
+	result_str += '-\n'
+
+done(result_str)
